@@ -1,0 +1,87 @@
+// Pure functions
+let array = [1, 2, 3]
+const addElToArray = (a, el) => {
+    // This is taking the array, copies it and makes a new one and adds the el
+    return [...a, el]
+}
+console.log(addElToArray(array, 4)) // [1, 2, 3, 4]
+
+
+// Higher Order Functions - filter()
+let animals = [
+    { name: 'Fluffykins', species: 'rabbit'},
+    { name: 'Caro', species: 'dog'},
+    { name: 'Hamilton', species: 'dog'},
+    { name: 'Harold', species: 'fish'},
+    { name: 'Ursula', species: 'cat'},
+    { name: 'Jimmy', species: 'fish'}
+]
+
+let dogs = animals.filter(animal => animal.species === 'dog')
+console.log(dogs)
+
+
+// Higher Order Functions - map()
+let names = animals.map(animal => animal.name + ' is a ' + animal.species)
+console.log(names)
+
+
+// Higher Order Functions - reduce()
+let orders = [
+    { amount: 250 },
+    { amount: 400 },
+    { amount: 100 },
+    { amount: 325 },
+]
+
+const totalAmount = orders.reduce((sum, order) => sum + order.amount, 0)
+console.log(totalAmount)
+
+
+// Currying
+let dragon =
+    name =>
+        size =>
+            element =>
+                name + ' is a ' +
+    size + ' dragon that breathes ' +
+    element + '!'
+
+console.log(dragon('fluffy')('tiny')('lightning'))
+
+let drogonDragon = dragon('Drogon')
+let bigDragon = drogonDragon('big')
+console.log(bigDragon('fire'))
+
+
+// Recursion
+const countDownFrom = (num) => {
+    if(num === 0) return;
+    console.log(num);
+    countDownFrom(num - 1)
+}
+console.log(countDownFrom(10));
+
+let categories = [
+    { id: 'animals', parent: null },
+    { id: 'mammals', parent: 'animals' },
+    { id: 'cats', parent: 'mammals' },
+    { id: 'dogs', parent: 'mammals' },
+    { id: 'chihuahua', parent: 'dogs' },
+    { id: 'labrador', parent: 'dogs' },
+    { id: 'persian', parent: 'cats' },
+    { id: 'siamese', parent: 'cats' },
+]
+
+const makeTree = (categories, parent) => {
+    let node = {}
+    categories
+        .filter(c => c.parent === parent)
+        .forEach(c => node[c.id] = makeTree(categories, c.id))
+    return node
+}
+
+// In the forEach loop we add new properties to the node object, with the brackets notation
+// https://stackoverflow.com/questions/1168807/how-can-i-add-a-key-value-pair-to-a-javascript-object
+
+console.log(JSON.stringify(makeTree(categories, null), null, 2))
